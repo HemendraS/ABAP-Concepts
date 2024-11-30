@@ -1,0 +1,32 @@
+CLASS zcl_2_factory DEFINITION
+  PUBLIC
+  CREATE PRIVATE .
+
+  PUBLIC SECTION.
+    METHODS constructor IMPORTING my_stuff TYPE string.
+    CLASS-METHODS factory IMPORTING my_stuff           TYPE string
+                          RETURNING VALUE(my_instance) TYPE REF TO zcl_2_factory.
+    METHODS get_stored_stuffs
+      RETURNING VALUE(results) TYPE string.
+  PROTECTED SECTION.
+  PRIVATE SECTION.
+    DATA stored_my_stuff TYPE string.
+ENDCLASS.
+
+
+
+CLASS zcl_2_factory IMPLEMENTATION.
+
+  METHOD constructor.
+    stored_my_stuff = my_stuff.
+  ENDMETHOD.
+
+  METHOD factory.
+    my_instance = NEW zcl_2_factory( my_stuff ).
+  ENDMETHOD.
+
+  METHOD get_stored_stuffs.
+    results = me->stored_my_stuff.
+  ENDMETHOD.
+
+ENDCLASS.
