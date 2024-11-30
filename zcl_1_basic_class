@@ -1,0 +1,37 @@
+CLASS zcl_1_basic_class DEFINITION
+  PUBLIC
+  FINAL
+  CREATE PUBLIC .
+
+  PUBLIC SECTION.
+    TYPES:
+        sample_table_type TYPE STANDARD TABLE OF string.
+
+    CLASS-DATA sample_internal_table TYPE sample_table_type.
+
+    METHODS my_first_method
+      IMPORTING
+                !import       TYPE string
+      RETURNING VALUE(export) TYPE string.
+
+    METHODS my_second_method
+      RETURNING VALUE(sample_internal_table) LIKE sample_internal_table.
+  PROTECTED SECTION.
+  PRIVATE SECTION.
+ENDCLASS.
+
+
+
+CLASS zcl_1_basic_class IMPLEMENTATION.
+
+  METHOD my_first_method.
+    export = |${ import } . Plus New Stuff|.
+    APPEND INITIAL LINE TO sample_internal_table REFERENCE INTO DATA(itab_line).
+    itab_line->* = export.
+  ENDMETHOD.
+
+  METHOD my_second_method.
+    sample_internal_table = zcl_1_basic_class=>sample_internal_table.
+  ENDMETHOD.
+
+ENDCLASS.
